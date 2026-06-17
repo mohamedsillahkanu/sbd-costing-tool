@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sierra Leone — Intervention Eligibility Map</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;min-height:100vh}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#2c6793,#1f4a6a);color:#fff;padding:13px 20px;border-bottom:4px solid #ffc107}
+.hdr-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hdr-badge{background:#ffc107;color:#1f4a6a;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:14px;flex-shrink:0}
+.hdr h1{font-size:17px;font-weight:700;margin-bottom:1px}
+.hdr p{font-size:11px;opacity:.8;margin:0}
+
+
+
+/* INTERVENTION TABS */
+.tabs-wrap{background:#fff;border-bottom:3px solid #d0dde8}
+.tabs-inner{max-width:1400px;margin:0 auto;display:flex;overflow-x:auto}
+.itab{display:flex;align-items:center;gap:8px;padding:11px 20px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#6c7a89;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .18s;white-space:nowrap;flex-shrink:0}
+.itab:hover{color:#2c6793;background:#f0f5f9}
+.itab.active{border-bottom-color:currentColor;background:#f0f5f9}
+.itab.t-sbd{color:#8a6e00}.itab.t-sbd.active{color:#8a6e00;background:#fffdf0;border-bottom-color:#f5c518}
+.itab.t-smc{color:#155724}.itab.t-smc.active{color:#155724;background:#f0fff4;border-bottom-color:#2d9e5a}
+.itab.t-pmc{color:#7a2e0e}.itab.t-pmc.active{color:#7a2e0e;background:#fff6f0;border-bottom-color:#e05c2a}
+.itab.t-itn{color:#4a1e8c}.itab.t-itn.active{color:#4a1e8c;background:#f8f0ff;border-bottom-color:#7b4fc9}
+.tdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tcnt{font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;background:#e8f0f7;color:#2c6793}
+.itab.active .tcnt{color:inherit}
+.itab.t-sbd.active .tcnt{background:#fdf3c0;color:#8a6e00}
+.itab.t-smc.active .tcnt{background:#d4edda;color:#155724}
+.itab.t-pmc.active .tcnt{background:#fde8e0;color:#7a2e0e}
+.itab.t-itn.active .tcnt{background:#ede4f8;color:#4a1e8c}
+
+/* STATS BAR */
+.sbar{background:#fff;border-bottom:1px solid #d0dde8;padding:8px 20px}
+.sbar-inner{max-width:1400px;margin:0 auto;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.sp{display:flex;align-items:center;gap:7px}
+.sp-n{font-size:18px;font-weight:700;line-height:1}
+.sp-l{font-size:10px;color:#6c7a89;line-height:1.3}
+.sp-dv{width:1px;height:26px;background:#d0dde8;flex-shrink:0}
+#selLabel{font-size:11px;font-weight:700;background:#fff3cd;color:#856404;padding:4px 10px;border-radius:10px;border:1px solid #ffc107}
+
+/* LAYOUT */
+.layout{max-width:1400px;margin:12px auto;padding:0 14px;display:grid;grid-template-columns:500px 1fr;gap:14px;align-items:start}
+
+/* MAP */
+.map-card{background:#fff;border-radius:10px;border:2px solid #d0dde8;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.map-hdr{background:#e8f0f7;padding:9px 14px;border-bottom:1px solid #d0dde8;font-size:12px;font-weight:600;color:#1f4a6a;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.loading{text-align:center;padding:60px 20px;color:#6c7a89;font-size:13px}
+.spin{width:28px;height:28px;border:3px solid #e8f0f7;border-top-color:#2c6793;border-radius:50%;animation:rot .8s linear infinite;margin:0 auto 10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:12px;min-width:0}
+.icard{background:#fff;border-radius:10px;border:2px solid #d0dde8;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.icard-hdr{background:#e8f0f7;padding:9px 14px;font-size:12px;font-weight:700;color:#1f4a6a;border-bottom:1px solid #d0dde8;display:flex;align-items:center;gap:6px}
+.icard-body{padding:13px}
+.scrollable{max-height:500px;overflow-y:auto}
+.scrollable::-webkit-scrollbar{width:4px}
+.scrollable::-webkit-scrollbar-thumb{background:#d0dde8;border-radius:2px}
+
+/* legend */
+.leg-t{font-size:9px;font-weight:800;color:#1f4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.leg-r{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;margin-bottom:4px}
+.leg-sw{width:18px;height:12px;border-radius:3px;flex-shrink:0}
+.leg-ln{width:18px;height:3px;background:#1a2e3d;border-radius:1px;flex-shrink:0}
+.leg-lg{width:18px;height:1.5px;background:#aab4be;flex-shrink:0}
+.leg-div{height:1px;background:#e8f0f7;margin:6px 0}
+
+/* placeholder */
+.ph{text-align:center;padding:22px 12px;color:#6c7a89}
+.ph-ico{font-size:26px;margin-bottom:7px;opacity:.45}
+.ph p{font-size:12px;line-height:1.6}
+.ph strong{color:#2c6793}
+
+/* chiefdom block */
+.cblk{padding-bottom:12px;margin-bottom:12px;border-bottom:2px solid #e0e8f0}
+.cblk:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.cblk-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;gap:6px}
+.cn{font-size:13px;font-weight:700;color:#1f4a6a;line-height:1.2}
+.cd{font-size:10px;color:#6c7a89;margin-top:1px}
+.cbg{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:8px;flex-shrink:0;white-space:nowrap}
+.bg-sbd{background:#fdf3c0;color:#8a6e00;border:1px solid #f5c518}
+.bg-smc{background:#d4edda;color:#155724;border:1px solid #2d9e5a}
+.bg-pmc{background:#fde8e0;color:#7a2e0e;border:1px solid #e05c2a}
+.bg-itn{background:#ede4f8;color:#4a1e8c;border:1px solid #7b4fc9}
+
+.slbl{font-size:9px;font-weight:800;color:#2c6793;letter-spacing:1.2px;text-transform:uppercase;padding:6px 0 3px;border-top:1px solid #e8f0f7;margin-top:3px}
+.slbl:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:4px 6px;margin-bottom:2px}
+.ic{background:#f8fafc;border-radius:5px;padding:5px 7px;border:1px solid #e8f0f7}
+.il{font-size:8px;font-weight:700;color:#6c7a89;text-transform:uppercase;letter-spacing:.3px;margin-bottom:1px}
+.iv{font-size:12px;font-weight:700;color:#1a2e3d}
+.iv.g{color:#1a8a4a}.iv.b{color:#2c6793}.iv.o{color:#856404}.iv.p{color:#7b4fc9}
+.cr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #f0f5f9;font-size:11px}
+.cr:last-child{border-bottom:none}
+.cr-l{color:#6c7a89}.cr-v{font-weight:700;color:#2c6793}
+.tbox{border-radius:7px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.tl{color:rgba(255,255,255,.85);font-size:11px;font-weight:700}
+.tv{color:#ffc107;font-size:14px;font-weight:800}
+
+/* criteria table */
+.ctbl{width:100%;border-collapse:collapse;font-size:10px;margin-top:3px}
+.ctbl th{background:#e8f0f7;color:#1f4a6a;font-weight:700;padding:5px 6px;text-align:left;font-size:9px;letter-spacing:.3px;text-transform:uppercase;border:1px solid #d0dde8}
+.ctbl td{padding:5px 6px;border:1px solid #e8f0f7;vertical-align:middle}
+.ctbl tr:nth-child(even) td{background:#f8fafc}
+.cv{font-weight:700;color:#2c6793}
+.cmet{display:inline-flex;align-items:center;gap:2px;background:#d4edda;color:#155724;font-weight:700;font-size:9px;padding:1px 6px;border-radius:7px;white-space:nowrap}
+.cmet::before{content:"✓";font-weight:900}
+.cnot{display:inline-flex;align-items:center;gap:2px;background:#f8d7da;color:#721c24;font-weight:700;font-size:9px;padding:1px 6px;border-radius:7px;white-space:nowrap}
+.cnot::before{content:"✗";font-weight:900}
+
+/* combined summary */
+.msbox{border-radius:8px;border:1.5px solid #ffc107;padding:9px 11px;margin-bottom:8px;background:#fffdf0}
+.mst{font-size:11px;font-weight:700;color:#856404;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+.msg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.msc{background:#fff;border-radius:4px;padding:4px 7px;border:1px solid #ffeaa0}
+.msl{font-size:9px;color:#856404;font-weight:700;text-transform:uppercase}
+.msn{font-size:12px;font-weight:700;color:#1f4a6a}
+
+/* unit costs */
+.uc{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #f0f5f9;font-size:11px}
+.uc:last-child{border-bottom:none}
+.ul{color:#6c7a89}.uv{font-weight:700;color:#2c6793}
+
+@media(max-width:960px){.layout{grid-template-columns:1fr}.sidebar{order:-1}}
+@media(max-width:560px){.layout{padding:0 8px}.itab{padding:9px 12px;font-size:11px}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <span class="hdr-badge">NMCP 2026</span>
+    <div>
+      <h1>Sierra Leone — Malaria Intervention Eligibility Map</h1>
+      <p>Data from int.csv &bull; One row per chiefdom &bull; Yes/No per intervention &bull; Click eligible chiefdoms to select</p>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="tabs-wrap">
+  <div class="tabs-inner" id="intTabs">
+    <button class="itab t-sbd active" data-int="SBD">
+      <span class="tdot" style="background:#f5c518"></span>SBD
+      <span class="tcnt" id="cnt-SBD">0</span>
+    </button>
+    <button class="itab t-smc" data-int="SMC">
+      <span class="tdot" style="background:#2d9e5a"></span>SMC
+      <span class="tcnt" id="cnt-SMC">0</span>
+    </button>
+    <button class="itab t-pmc" data-int="PMC">
+      <span class="tdot" style="background:#e05c2a"></span>PMC
+      <span class="tcnt" id="cnt-PMC">0</span>
+    </button>
+    <button class="itab t-itn" data-int="Mass ITN">
+      <span class="tdot" style="background:#7b4fc9"></span>Mass ITN
+      <span class="tcnt" id="cnt-Mass ITN">0</span>
+    </button>
+  </div>
+</div>
+
+<div class="sbar">
+  <div class="sbar-inner">
+    <div class="sp"><span class="sp-n" id="statElig" style="color:#c49a00">0</span><span class="sp-l">Eligible<br>chiefdoms</span></div>
+    <div class="sp-dv"></div>
+    <div class="sp"><span class="sp-n" id="statM1" style="color:#1a8a4a">—</span><span class="sp-l" id="statL1">Key metric</span></div>
+    <div class="sp-dv"></div>
+    <div class="sp"><span class="sp-n" id="statBudget" style="color:#856404">—</span><span class="sp-l">Selected<br>budget (NLe)</span></div>
+    <div class="sp-dv"></div>
+    <span id="selLabel">0 selected</span>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="map-card">
+    <div class="map-hdr">
+      <span id="mapTitle">SBD — Eligible Chiefdoms</span>
+      <span style="font-size:11px;color:#856404;font-weight:700">Click to select/deselect</span>
+    </div>
+    <div id="mapWrap">
+      <div class="loading" id="loadingEl"><div class="spin"></div>Loading map&hellip;</div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <!-- Legend -->
+    <div class="icard">
+      <div class="icard-hdr">Legend</div>
+      <div class="icard-body">
+        <div class="leg-t">Chiefdoms</div>
+        <div class="leg-r"><div class="leg-sw" id="legElig" style="background:#f5c518;border:1.5px solid #c49a00"></div><span id="legEligLbl">Eligible — SBD</span></div>
+        <div class="leg-r"><div class="leg-sw" style="background:#2d7fcb;border:1.5px solid #1a5a9e"></div>Selected</div>
+        <div class="leg-r"><div class="leg-sw" style="background:#fff;border:1.5px solid #aab4be"></div>Not eligible</div>
+        <div class="leg-div"></div>
+        <div class="leg-t">Boundaries</div>
+        <div class="leg-r"><div class="leg-ln"></div>District</div>
+        <div class="leg-r"><div class="leg-lg"></div>Chiefdom</div>
+      </div>
+    </div>
+
+    <!-- Criteria -->
+    <div class="icard">
+      <div class="icard-hdr" id="critHdr">&#9989; Eligibility Criteria</div>
+      <div class="icard-body scrollable" id="critBody">
+        <div class="ph"><div class="ph-ico">&#9989;</div><p>Click an eligible chiefdom to see its criteria.</p></div>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="icard">
+      <div class="icard-hdr" id="detHdr">&#128506; Chiefdom Details &amp; Costing</div>
+      <div class="icard-body scrollable" id="detBody">
+        <div class="ph"><div class="ph-ico">&#128506;</div><p>Click any <strong>eligible chiefdom</strong>.<br>Multi-select supported.</p></div>
+      </div>
+    </div>
+
+    <!-- Unit costs -->
+    <div class="icard">
+      <div class="icard-hdr" id="costsHdr">Unit Cost Assumptions</div>
+      <div class="icard-body" id="costsBody"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/* ─── INTERVENTION CONFIG ─────────────────────────── */
+var CFG = {
+  SBD:{
+    label:'School-Based Distribution',
+    col:'SBD',
+    mapColor:'#f5c518', mapHov:'#e0a800', mapSel:'#2d7fcb',
+    bgCls:'bg-sbd', tabCls:'t-sbd',
+    statLbl:'Selected\nITNs',
+    criteria:[
+      {lbl:'Malaria incidence > 250/1,000',f:'incidence',   suf:'/1,000'},
+      {lbl:'ITN access < 45%',             f:'itn_access',  suf:'%'},
+      {lbl:'ITN use < 40%',                f:'itn_use',     suf:'%'},
+      {lbl:'PfPR (2–10yr) > 40%',          f:'pfpr',        suf:'%'},
+      {lbl:'U5 death rate > 4.5/1,000',    f:'u5_deaths',   suf:'/1,000'}
+    ],
+    costs:{'Cost of 1 ITN (NLe)':35,'Transport/ITN to PHU (NLe)':5,'PHU staff & teacher/day (NLe)':80,'ICT4D device/day (NLe)':50,'Supervisor/day (NLe)':120,'Vehicle/day (NLe)':400,'Fuel/vehicle/day (NLe)':180,'Campaign days':10},
+    metric:function(r){ return Math.round((+r.pupils||0)*1.05); },
+    total:function(r){
+      var itn=Math.round((+r.pupils||0)*1.05), ict=Math.ceil((+r.phus||1)/2);
+      return itn*35+itn*5+(+r.staff||0)*80*10+ict*50*10+(+r.supervisors||2)*120*10+(+r.vehicles||2)*400*10+(+r.vehicles||2)*180*10;
+    },
+    detail:function(r){
+      var itn=Math.round((+r.pupils||0)*1.05), ict=Math.ceil((+r.phus||1)/2);
+      return ig('Schools & pupils',[['Schools',r.schools,'b'],['Pupils',r.pupils,'b'],['ITNs targeted',itn,'g'],['SBD days',10,'']])
+        +ig('Health & staff',[['PHUs',r.phus,'b'],['Staff & teachers',r.staff,'b']])
+        +ig('Logistics',[['ICT4D',ict,''],['Supervisors',r.supervisors,''],['Vehicles',r.vehicles,''],['Fuel/day','NLe '+fn((+r.vehicles||2)*180),'o']])
+        +sl('Cost breakdown')
+        +cr('Total ITN cost','NLe '+fn(itn*35))
+        +cr('Total transport','NLe '+fn(itn*5))
+        +cr('Staff & teachers (10d)','NLe '+fn((+r.staff||0)*80*10))
+        +cr('ICT4D (10d)','NLe '+fn(ict*50*10))
+        +cr('Supervisors (10d)','NLe '+fn((+r.supervisors||2)*120*10))
+        +cr('Vehicles (10d)','NLe '+fn((+r.vehicles||2)*400*10))
+        +cr('Fuel (10d)','NLe '+fn((+r.vehicles||2)*180*10))
+        +tb(CFG.SBD.total(r),'background:linear-gradient(135deg,#c49a00,#856404)');
+    }
+  },
+  SMC:{
+    label:'Seasonal Malaria Chemoprevention',
+    col:'SMC',
+    mapColor:'#2d9e5a', mapHov:'#1a7a42', mapSel:'#2d7fcb',
+    bgCls:'bg-smc', tabCls:'t-smc',
+    statLbl:'Children\nU5',
+    criteria:[
+      {lbl:'Malaria incidence > 200/1,000',f:'incidence',   suf:'/1,000'},
+      {lbl:'SMC rounds >= 4/year',          f:'smc_rounds',  suf:' rounds'},
+      {lbl:'PfPR (2–10yr) > 35%',           f:'pfpr',        suf:'%'},
+      {lbl:'U5 death rate > 4.0/1,000',     f:'u5_deaths',   suf:'/1,000'},
+      {lbl:'Children U5 > 5,000',           f:'children_u5', suf:''}
+    ],
+    costs:{'SP+AQ/child/cycle (NLe)':12,'Cycles per year':4,'Distributor/day (NLe)':60,'Supervisor/day (NLe)':120,'Vehicle/day (NLe)':400,'Fuel/vehicle/day (NLe)':180,'Distribution days/cycle':3},
+    metric:function(r){ return +r.children_u5||0; },
+    total:function(r){
+      var cu=+r.children_u5||0, ro=+r.smc_rounds||4, su=+r.supervisors||2, ve=+r.vehicles||2;
+      var dist=Math.ceil(cu/200);
+      return cu*12*ro+dist*60*3*ro+su*120*3*ro+ve*400*3*ro+ve*180*3*ro;
+    },
+    detail:function(r){
+      var cu=+r.children_u5||0, ro=+r.smc_rounds||4, su=+r.supervisors||2, ve=+r.vehicles||2;
+      var dist=Math.ceil(cu/200);
+      return ig('Target population',[['Children U5',cu,'g'],['SMC cycles',ro,'b'],['Distributors',dist,''],['Days/cycle',3,'']])
+        +ig('Logistics',[['Supervisors',su,''],['Vehicles',ve,'']])
+        +sl('Cost breakdown')
+        +cr('SP+AQ ('+fn(cu)+' × '+ro+' cycles)','NLe '+fn(cu*12*ro))
+        +cr('Distributors ('+ro+' cycles × 3d)','NLe '+fn(dist*60*3*ro))
+        +cr('Supervisors ('+ro+' cycles × 3d)','NLe '+fn(su*120*3*ro))
+        +cr('Vehicles ('+ro+' cycles × 3d)','NLe '+fn(ve*400*3*ro))
+        +cr('Fuel ('+ro+' cycles × 3d)','NLe '+fn(ve*180*3*ro))
+        +tb(CFG.SMC.total(r),'background:linear-gradient(135deg,#1a7a42,#155724)');
+    }
+  },
+  PMC:{
+    label:'Perennial Malaria Chemoprevention',
+    col:'PMC',
+    mapColor:'#e05c2a', mapHov:'#c04820', mapSel:'#2d7fcb',
+    bgCls:'bg-pmc', tabCls:'t-pmc',
+    statLbl:'Pregnant\nwomen',
+    criteria:[
+      {lbl:'Malaria incidence > 200/1,000',f:'incidence',    suf:'/1,000'},
+      {lbl:'ANC coverage > 50%',           f:'anc_coverage', suf:'%'},
+      {lbl:'PfPR (2–10yr) > 35%',          f:'pfpr',         suf:'%'},
+      {lbl:'Target women > 1,000',         f:'pmc_women',    suf:''},
+      {lbl:'U5 death rate > 3.5/1,000',    f:'u5_deaths',    suf:'/1,000'}
+    ],
+    costs:{'SP dose/woman (NLe)':8,'IPTp doses/pregnancy':3,'ANC support/woman (NLe)':15,'Health worker/day (NLe)':80,'Supervisor/day (NLe)':120,'Distribution days':5},
+    metric:function(r){ return +r.pmc_women||0; },
+    total:function(r){
+      var w=+r.pmc_women||0, su=+r.supervisors||2, ve=+r.vehicles||2;
+      return w*8*3+w*15+Math.ceil(w/50)*80*5+su*120*5+ve*400*5+ve*180*5;
+    },
+    detail:function(r){
+      var w=+r.pmc_women||0, su=+r.supervisors||2, ve=+r.vehicles||2, hw=Math.ceil(w/50);
+      return ig('Target population',[['Pregnant women',w,'g'],['ANC coverage',(+r.anc_coverage||0)+'%','b'],['IPTp doses',3,''],['Health workers',hw,'']])
+        +ig('Logistics',[['Supervisors',su,''],['Vehicles',ve,'']])
+        +sl('Cost breakdown')
+        +cr('SP doses ('+fn(w)+' × 3)','NLe '+fn(w*8*3))
+        +cr('ANC support','NLe '+fn(w*15))
+        +cr('Health workers (5d)','NLe '+fn(hw*80*5))
+        +cr('Supervisors (5d)','NLe '+fn(su*120*5))
+        +cr('Vehicles (5d)','NLe '+fn(ve*400*5))
+        +cr('Fuel (5d)','NLe '+fn(ve*180*5))
+        +tb(CFG.PMC.total(r),'background:linear-gradient(135deg,#c04820,#7a2e0e)');
+    }
+  },
+  'Mass ITN':{
+    label:'Mass ITN Campaign',
+    col:'Mass ITN',
+    mapColor:'#7b4fc9', mapHov:'#5c37a0', mapSel:'#2d7fcb',
+    bgCls:'bg-itn', tabCls:'t-itn',
+    statLbl:'Households\ntargeted',
+    criteria:[
+      {lbl:'ITN access < 50%',              f:'itn_access',     suf:'%'},
+      {lbl:'ITN use < 40%',                 f:'itn_use',        suf:'%'},
+      {lbl:'Malaria incidence > 150/1,000', f:'incidence',      suf:'/1,000'},
+      {lbl:'PfPR (2–10yr) > 30%',           f:'pfpr',           suf:'%'},
+      {lbl:'Population > 10,000',           f:'population',     suf:''}
+    ],
+    costs:{'Cost of 1 ITN (NLe)':35,'ITNs per household':2,'Transport/ITN (NLe)':6,'Distributor/day (NLe)':70,'Supervisor/day (NLe)':120,'Vehicle/day (NLe)':400,'Fuel/vehicle/day (NLe)':180,'Distribution days':5},
+    metric:function(r){
+      var hh=+r.itn_households||0, pop=+r.population||0;
+      return hh||(pop?Math.round(pop/5):0);
+    },
+    total:function(r){
+      var hh=+r.itn_households||0, pop=+r.population||0;
+      if(!hh&&pop) hh=Math.round(pop/5);
+      var itn=hh*2, dist=Math.ceil(hh/100), su=+r.supervisors||3, ve=+r.vehicles||2;
+      return itn*35+itn*6+dist*70*5+su*120*5+ve*400*5+ve*180*5;
+    },
+    detail:function(r){
+      var hh=+r.itn_households||0, pop=+r.population||0;
+      if(!hh&&pop) hh=Math.round(pop/5);
+      var itn=hh*2, dist=Math.ceil(hh/100), su=+r.supervisors||3, ve=+r.vehicles||2;
+      return ig('Target population',[['Population',pop,'b'],['Households',hh,'g'],['ITNs (2/HH)',itn,'p'],['Dist. days',5,'']])
+        +ig('Logistics',[['Distributors',dist,''],['Supervisors',su,''],['Vehicles',ve,'']])
+        +sl('Cost breakdown')
+        +cr('ITN procurement','NLe '+fn(itn*35))
+        +cr('Transport','NLe '+fn(itn*6))
+        +cr('Distributors (5d)','NLe '+fn(dist*70*5))
+        +cr('Supervisors (5d)','NLe '+fn(su*120*5))
+        +cr('Vehicles (5d)','NLe '+fn(ve*400*5))
+        +cr('Fuel (5d)','NLe '+fn(ve*180*5))
+        +tb(CFG['Mass ITN'].total(r),'background:linear-gradient(135deg,#5c37a0,#3d2470)');
+    }
+  }
+};
+
+/* ─── STATE ──────────────────────────────────────── */
+var activeInt='SBD', rows={}, selected={}, pathSel=null, adm3Key=null;
+
+/* ─── HELPERS ────────────────────────────────────── */
+function fn(n){ return Number(Math.round(n)).toLocaleString(); }
+function fc(n){ return 'NLe '+fn(n); }
+function ig(title,cells){
+  var h='<div class="slbl">'+title+'</div><div class="ig">';
+  cells.forEach(function(c){ h+='<div class="ic"><div class="il">'+c[0]+'</div><div class="iv '+c[2]+'">'+fn(c[1])+'</div></div>'; });
+  return h+'</div>';
+}
+function sl(t){ return '<div class="slbl">'+t+'</div>'; }
+function cr(l,v){ return '<div class="cr"><span class="cr-l">'+l+'</span><span class="cr-v">'+v+'</span></div>'; }
+function tb(tot,bg){ return '<div class="tbox" style="'+bg+'"><span class="tl">Total estimated cost</span><span class="tv">'+fc(tot)+'</span></div>'; }
+
+/* ─── CSV PARSING ────────────────────────────────── */
+function parseCSV(text){
+  var res=Papa.parse(text.trim(),{header:true,skipEmptyLines:true});
+  rows={};
+  res.data.forEach(function(r){
+    var n=(r.chiefdom||'').trim();
+    if(n) rows[n]=r;
+  });
+  updateCounts();
+  recolorPaths();
+  clearSel();
+
+}
+
+function isEligible(name){ return rows[name] && (rows[name][activeInt]||'').trim().toLowerCase()==='yes'; }
+
+function updateCounts(){
+  ['SBD','SMC','PMC','Mass ITN'].forEach(function(k){
+    var cnt=Object.values(rows).filter(function(r){ return (r[k]||'').trim().toLowerCase()==='yes'; }).length;
+    var el=document.getElementById('cnt-'+k); if(el) el.textContent=cnt;
+  });
+  var elig=Object.values(rows).filter(function(r){ return (r[activeInt]||'').trim().toLowerCase()==='yes'; }).length;
+  document.getElementById('statElig').textContent=elig;
+}
+
+/* ─── INTERVENTION SWITCH ────────────────────────── */
+document.querySelectorAll('.itab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    activeInt=this.getAttribute('data-int');
+    document.querySelectorAll('.itab').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    clearSel();
+    recolorPaths();
+    updateCounts();
+    updateLegend();
+    updateUnitCosts();
+  });
+});
+
+function updateLegend(){
+  var c=CFG[activeInt];
+  document.getElementById('legElig').style.background=c.mapColor;
+  document.getElementById('legEligLbl').textContent='Eligible — '+activeInt;
+  document.getElementById('mapTitle').textContent=activeInt+' — Eligible Chiefdoms';
+}
+function updateUnitCosts(){
+  var c=CFG[activeInt];
+  document.getElementById('costsHdr').textContent='Unit Cost Assumptions — '+c.label;
+  document.getElementById('costsBody').innerHTML=Object.entries(c.costs).map(function(e){
+    return '<div class="uc"><span class="ul">'+e[0]+'</span><span class="uv">'+e[1]+'</span></div>';
+  }).join('');
+}
+
+/* ─── SELECTION ──────────────────────────────────── */
+function clearSel(){ selected={}; renderStats(); renderCriteria(); renderDetails(); }
+function toggle(name){ if(!isEligible(name)) return; if(selected[name]) delete selected[name]; else selected[name]=true; recolorPaths(); renderStats(); renderCriteria(); renderDetails(); }
+
+function renderStats(){
+  var names=Object.keys(selected), c=CFG[activeInt], m=0, b=0;
+  names.forEach(function(n){ var r=rows[n]; if(r){ m+=c.metric(r); b+=c.total(r); } });
+  document.getElementById('statM1').textContent=names.length?fn(m):'—';
+  document.getElementById('statL1').textContent=c.statLbl.replace('\n','\n');
+  document.getElementById('statBudget').textContent=names.length?fc(b):'—';
+  document.getElementById('selLabel').textContent=names.length===0?'0 selected':names.length+' selected';
+}
+
+/* ─── CRITERIA ───────────────────────────────────── */
+function renderCriteria(){
+  var names=Object.keys(selected).filter(function(n){ return isEligible(n); });
+  var c=CFG[activeInt];
+  if(!names.length){
+    document.getElementById('critHdr').textContent='✅ Eligibility Criteria — '+activeInt;
+    document.getElementById('critBody').innerHTML='<div class="ph"><div class="ph-ico">&#9989;</div><p>Click an eligible chiefdom to see its criteria.</p></div>';
+    return;
+  }
+  document.getElementById('critHdr').textContent='✅ Eligibility Criteria — '+activeInt+(names.length>1?' ('+names.length+')':'');
+  document.getElementById('critBody').innerHTML=names.map(function(name,idx){
+    var r=rows[name];
+    var sep=idx>0?'border-top:2px solid #d0dde8;padding-top:10px;margin-top:10px':'';
+    var tbody=c.criteria.map(function(cr){
+      var val=r&&r[cr.f]?(fn(r[cr.f])+cr.suf):'—';
+      return '<tr><td>'+cr.lbl+'</td><td class="cv">'+val+'</td><td><span class="cmet">Yes</span></td></tr>';
+    }).join('');
+    return '<div style="'+sep+'">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'
+      +'<div><div style="font-size:12px;font-weight:700;color:#1f4a6a">'+name+'</div>'
+      +'<div style="font-size:10px;color:#6c7a89">'+(r&&r.district?r.district+' District':'')+'</div></div>'
+      +'<span class="cbg '+c.bgCls+'">'+activeInt+'</span>'
+      +'</div>'
+      +'<table class="ctbl"><thead><tr><th>Criteria</th><th>Value</th><th>Met</th></tr></thead>'
+      +'<tbody>'+tbody+'</tbody></table></div>';
+  }).join('');
+}
+
+/* ─── DETAILS ────────────────────────────────────── */
+function renderDetails(){
+  var names=Object.keys(selected).filter(function(n){ return isEligible(n); });
+  var c=CFG[activeInt];
+  if(!names.length){
+    document.getElementById('detHdr').textContent='🗺 Chiefdom Details & Costing — '+activeInt;
+    document.getElementById('detBody').innerHTML='<div class="ph"><div class="ph-ico">&#128506;</div><p>Click any eligible chiefdom.<br>Multi-select supported.</p></div>';
+    return;
+  }
+  document.getElementById('detHdr').textContent='🗺 Chiefdom Details & Costing — '+activeInt+(names.length>1?' ('+names.length+')':'');
+
+  var summary='';
+  if(names.length>1){
+    var tm=0,tb2=0;
+    names.forEach(function(n){ var r=rows[n]; if(r){ tm+=c.metric(r); tb2+=c.total(r); } });
+    summary='<div class="msbox">'
+      +'<div class="mst">Combined — '+names.length+' chiefdoms<span>'+fc(tb2)+'</span></div>'
+      +'<div class="msg">'
+      +'<div class="msc"><div class="msl">Chiefdoms</div><div class="msn">'+names.length+'</div></div>'
+      +'<div class="msc"><div class="msl">Grand total</div><div class="msn">'+fc(tb2)+'</div></div>'
+      +'</div></div>';
+  }
+
+  var blocks=names.map(function(name,idx){
+    var r=rows[name];
+    var sep=(idx>0||summary)?'border-top:2px solid #e0e8f0;padding-top:11px;margin-top:11px':'';
+    return '<div class="cblk" style="'+sep+'">'
+      +'<div class="cblk-top">'
+      +'<div><div class="cn">'+name+'</div><div class="cd">'+(r&&r.district?r.district+' District':'')+'</div></div>'
+      +'<span class="cbg '+c.bgCls+'">'+activeInt+'</span>'
+      +'</div>'
+      +(r?c.detail(r):'<p style="color:#6c7a89;font-size:12px">No data for this chiefdom.</p>')
+      +'</div>';
+  }).join('');
+
+  document.getElementById('detBody').innerHTML=summary+blocks;
+}
+
+/* ─── MAP ────────────────────────────────────────── */
+var GEO_C='https://raw.githubusercontent.com/mohamedsillahkanu/tpr/8b16cd164aa5116242b9e8e29ea777cf79a1b211/Chiefdom_shp.geojson';
+var GEO_D='https://raw.githubusercontent.com/mohamedsillahkanu/tpr/d202a234dfd9b30de6216b5da59b2a1ee14283b5/District_Shapefiles.geojson';
+
+function getA3(props){
+  if(adm3Key) return props[adm3Key];
+  adm3Key=Object.keys(props).find(function(k){ return k==='adm3'||/adm3/i.test(k); })||Object.keys(props)[0];
+  return props[adm3Key];
+}
+function colorOf(name){ if(!isEligible(name)) return '#ffffff'; return selected[name]?CFG[activeInt].mapSel:CFG[activeInt].mapColor; }
+
+function recolorPaths(){
+  if(!pathSel) return;
+  pathSel
+    .attr('fill',function(f){ return colorOf(getA3(f.properties)); })
+    .attr('stroke',function(f){ return selected[getA3(f.properties)]?'#1a5a9e':'#aab4be'; })
+    .attr('stroke-width',function(f){ return selected[getA3(f.properties)]?'1.4':'0.7'; })
+    .style('cursor',function(f){ return isEligible(getA3(f.properties))?'pointer':'default'; });
+}
+
+Promise.all([d3.json(GEO_C),d3.json(GEO_D)]).then(function(res){
+  var geoC=res[0], geoD=res[1];
+  document.getElementById('loadingEl').style.display='none';
+  var wrap=document.getElementById('mapWrap');
+  var svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svgEl.setAttribute('viewBox','0 0 600 680');
+  svgEl.style.cssText='width:100%;height:auto;display:block';
+  wrap.appendChild(svgEl);
+  var svg=d3.select(svgEl);
+  var proj=d3.geoMercator().fitSize([600,680],geoC);
+  var path=d3.geoPath(proj);
+
+  pathSel=svg.selectAll('path.cp').data(geoC.features).join('path').attr('class','cp')
+    .attr('d',path).attr('fill','#ffffff').attr('stroke','#aab4be').attr('stroke-width','0.7')
+    .on('mouseenter',function(ev,f){
+      var n=getA3(f.properties);
+      if(!isEligible(n)||selected[n]) return;
+      d3.select(this).attr('fill',CFG[activeInt].mapHov);
+    })
+    .on('mouseleave',function(ev,f){
+      var n=getA3(f.properties);
+      if(!isEligible(n)||selected[n]) return;
+      d3.select(this).attr('fill',CFG[activeInt].mapColor);
+    })
+    .on('click',function(ev,f){ toggle(getA3(f.properties)); });
+
+  svg.selectAll('path.dp').data(geoD.features).join('path').attr('class','dp')
+    .attr('d',path).attr('fill','none').attr('stroke','#1a2e3d').attr('stroke-width','2.0')
+    .attr('pointer-events','none');
+
+  recolorPaths();
+}).catch(function(e){
+  document.getElementById('loadingEl').innerHTML='<p style="color:#dc3545;padding:20px;font-size:13px">Map load failed. Check connection.</p>';
+  console.error(e);
+});
+
+/* ─── INIT — fetch int.csv ──────────────────────── */
+fetch('int.csv')
+  .then(function(r){ return r.text(); })
+  .then(function(text){ parseCSV(text); })
+  .catch(function(e){ console.error('Could not load int.csv:', e); });
+
+updateLegend();
+updateUnitCosts();
+renderStats();
+</script>
+</body>
+</html>
