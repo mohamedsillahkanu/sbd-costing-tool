@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBD Eligibility Map — Sierra Leone</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d}
+
+.hdr{background:linear-gradient(135deg,#2c6793,#1f4a6a);color:#fff;padding:14px 20px;border-bottom:4px solid #ffc107}
+.hdr-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hdr-badge{background:#ffc107;color:#1f4a6a;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:14px;flex-shrink:0}
+.hdr h1{font-size:17px;font-weight:700;margin-bottom:1px}
+.hdr p{font-size:11px;opacity:.8;margin:0}
+
+.stats-bar{background:#fff;border-bottom:1px solid #d0dde8;padding:8px 20px}
+.stats-inner{max-width:1200px;margin:0 auto;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.sp{display:flex;align-items:center;gap:7px}
+.sp-num{font-size:18px;font-weight:700;line-height:1}
+.sp-lbl{font-size:10px;color:#6c7a89;line-height:1.3}
+.sp-div{width:1px;height:28px;background:#d0dde8}
+#selLabel{font-size:11px;color:#856404;font-weight:700;background:#fff3cd;padding:4px 10px;border-radius:10px;border:1px solid #ffc107}
+
+.layout{max-width:1200px;margin:12px auto;padding:0 14px;display:grid;grid-template-columns:500px 1fr;gap:14px;align-items:start}
+
+.map-card{background:#fff;border-radius:10px;border:2px solid #d0dde8;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.map-hdr{background:#e8f0f7;padding:9px 14px;border-bottom:1px solid #d0dde8;font-size:12px;font-weight:600;color:#1f4a6a;display:flex;justify-content:space-between;align-items:center}
+#mapWrap{position:relative}
+#mapSvg{width:100%;height:auto;display:block}
+.loading{text-align:center;padding:60px 20px;color:#6c7a89;font-size:13px}
+.spin{width:32px;height:32px;border:3px solid #e8f0f7;border-top-color:#2c6793;border-radius:50%;animation:rot .8s linear infinite;margin:0 auto 12px}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.icard{background:#fff;border-radius:10px;border:2px solid #d0dde8;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.icard-hdr{background:#e8f0f7;padding:9px 14px;font-size:12px;font-weight:700;color:#1f4a6a;border-bottom:1px solid #d0dde8;display:flex;align-items:center;gap:6px}
+.icard-body{padding:13px}
+
+/* legend */
+.leg-title{font-size:9px;font-weight:800;color:#1f4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:#1a2e3d;margin-bottom:5px}
+.leg-sw{width:20px;height:13px;border-radius:3px;flex-shrink:0}
+.leg-line{width:20px;height:3px;background:#1a2e3d;border-radius:1px;flex-shrink:0}
+.leg-line-gray{width:20px;height:1.5px;background:#aab4be;flex-shrink:0}
+
+/* placeholder */
+.ph{text-align:center;padding:28px 14px;color:#6c7a89}
+.ph-ico{font-size:32px;margin-bottom:8px;opacity:.45}
+.ph p{font-size:12px;line-height:1.6}
+.ph strong{color:#2c6793}
+
+/* detail */
+.det-name{font-size:15px;font-weight:700;color:#1f4a6a;margin-bottom:2px}
+.det-dist{font-size:11px;color:#6c7a89;margin-bottom:7px}
+.det-badge{display:inline-block;background:#ffc107;color:#1f4a6a;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 9px;border-radius:10px;margin-bottom:10px}
+.sec-lbl{font-size:9px;font-weight:800;color:#2c6793;letter-spacing:1.2px;text-transform:uppercase;padding:8px 0 4px;border-top:1px solid #e8f0f7;margin-top:4px}
+.sec-lbl:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;margin-bottom:2px}
+.ig-cell{background:#f8fafc;border-radius:6px;padding:6px 8px;border:1px solid #e8f0f7}
+.ig-lbl{font-size:9px;font-weight:700;color:#6c7a89;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.ig-v{font-size:13px;font-weight:700;color:#1a2e3d}
+.ig-v.g{color:#1a8a4a}.ig-v.b{color:#2c6793}.ig-v.o{color:#856404}
+.cr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f0f5f9;font-size:11px}
+.cr:last-child{border-bottom:none}
+.cr-lbl{color:#6c7a89}.cr-val{font-weight:700;color:#2c6793}
+.tot-box{background:linear-gradient(135deg,#2c6793,#1f4a6a);border-radius:8px;padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.tot-lbl{color:rgba(255,255,255,.85);font-size:11px;font-weight:700}
+.tot-val{color:#ffc107;font-size:16px;font-weight:800}
+
+.uc{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #f0f5f9;font-size:11px}
+.uc:last-child{border-bottom:none}
+.uc-l{color:#6c7a89}.uc-v{font-weight:700;color:#2c6793}
+
+.ms-box{background:#fff3cd;border-radius:8px;border:1.5px solid #ffc107;padding:10px 12px;margin-bottom:8px}
+.ms-title{font-size:11px;font-weight:700;color:#856404;margin-bottom:6px}
+.ms-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.ms-cell{background:#fff;border-radius:5px;padding:5px 7px;border:1px solid #ffeaa0}
+.ms-lbl{font-size:9px;color:#856404;font-weight:700;text-transform:uppercase}
+.ms-num{font-size:13px;font-weight:700;color:#1f4a6a}
+
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{order:-1}}
+@media(max-width:560px){.layout{padding:0 8px}.stats-inner{gap:12px}.sp-num{font-size:15px}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-inner">
+        <span class="hdr-badge">SBD 2026</span>
+        <div>
+            <h1>School-Based ITN Distribution — Eligibility Map</h1>
+            <p>Sierra Leone &middot; 208 chiefdoms &middot; Click yellow chiefdom to select / click again to deselect</p>
+        </div>
+    </div>
+</div>
+
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="sp"><span class="sp-num">208</span><span class="sp-lbl">Total<br>chiefdoms</span></div>
+        <div class="sp-div"></div>
+        <div class="sp"><span class="sp-num" style="color:#c49a00">20</span><span class="sp-lbl">Eligible<br>chiefdoms</span></div>
+        <div class="sp-div"></div>
+        <div class="sp"><span class="sp-num" id="statITN" style="color:#1a8a4a">—</span><span class="sp-lbl">Selected<br>ITNs</span></div>
+        <div class="sp-div"></div>
+        <div class="sp"><span class="sp-num" id="statBudget" style="color:#856404">—</span><span class="sp-lbl">Selected<br>budget (NLe)</span></div>
+        <div class="sp-div"></div>
+        <span id="selLabel">0 selected</span>
+    </div>
+</div>
+
+<div class="layout">
+    <div class="map-card">
+        <div class="map-hdr">
+            <span>Sierra Leone — Chiefdom Level</span>
+            <span style="font-size:11px;color:#856404;font-weight:700">Click yellow to select &bull; click again to deselect</span>
+        </div>
+        <div id="mapWrap">
+            <div class="loading" id="loadingEl"><div class="spin"></div>Loading map&hellip;</div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="icard">
+            <div class="icard-hdr">Legend</div>
+            <div class="icard-body">
+                <div class="leg-title">Chiefdoms</div>
+                <div class="leg-row"><div class="leg-sw" style="background:#ffc107;border:1.5px solid #c49a00"></div>Eligible for SBD 2026</div>
+                <div class="leg-row"><div class="leg-sw" style="background:#2d9e5a;border:1.5px solid #1a6e3c"></div>Selected chiefdom</div>
+                <div class="leg-row"><div class="leg-sw" style="background:#ffffff;border:1.5px solid #aab4be"></div>Not eligible</div>
+                <div style="height:1px;background:#e8f0f7;margin:6px 0"></div>
+                <div class="leg-title">Boundaries</div>
+                <div class="leg-row"><div class="leg-line"></div>District boundary</div>
+                <div class="leg-row"><div class="leg-line-gray"></div>Chiefdom boundary</div>
+            </div>
+        </div>
+
+        <div class="icard">
+            <div class="icard-hdr" id="detHdr">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f4a6a" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                Chiefdom Details
+            </div>
+            <div class="icard-body" id="detBody">
+                <div class="ph"><div class="ph-ico">&#128506;</div><p>Click any <strong>yellow chiefdom</strong> on the map to view details.<br>Multi-select is supported.</p></div>
+            </div>
+        </div>
+
+        <div class="icard">
+            <div class="icard-hdr">Unit Cost Assumptions</div>
+            <div class="icard-body">
+                <div class="uc"><span class="uc-l">Cost of 1 ITN</span><span class="uc-v">NLe 35</span></div>
+                <div class="uc"><span class="uc-l">Transport / ITN to PHU</span><span class="uc-v">NLe 5</span></div>
+                <div class="uc"><span class="uc-l">PHU staff &amp; teacher / day</span><span class="uc-v">NLe 80</span></div>
+                <div class="uc"><span class="uc-l">ICT4D device / day</span><span class="uc-v">NLe 50</span></div>
+                <div class="uc"><span class="uc-l">Supervisor / day</span><span class="uc-v">NLe 120</span></div>
+                <div class="uc"><span class="uc-l">Vehicle / day</span><span class="uc-v">NLe 400</span></div>
+                <div class="uc"><span class="uc-l">Fuel / vehicle / day</span><span class="uc-v">NLe 180</span></div>
+                <div class="uc"><span class="uc-l">Campaign duration</span><span class="uc-v">10 days</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+/* ── REAL adm3 names from the shapefile (first 5 features) ── */
+var C = {itn:35,transport:5,staff_day:80,ict4d_day:50,sup_day:120,veh_day:400,fuel_day:180,days:10};
+
+var eligible = {
+    "Nongoba Bullom Chiefdom":    {district:"Bonthe",   schools:12,pupils:1940,phus:4, staff:16,sups:2,veh:2},
+    "Small Bo Chiefdom":          {district:"Kenema",   schools:15,pupils:2380,phus:5, staff:20,sups:2,veh:2},
+    "Peje Bongre Chiefdom":       {district:"Kailahun", schools:13,pupils:2070,phus:5, staff:20,sups:2,veh:2},
+    "Kpanga Chiefdom":            {district:"Pujehun",  schools:11,pupils:1750,phus:4, staff:16,sups:2,veh:2},
+    "Nyedu Chiefdom":             {district:"Falaba",   schools:10,pupils:1580,phus:3, staff:12,sups:2,veh:1},
+    "Dembelia-Sinkunia Chiefdom": {district:"Falaba",   schools:14,pupils:2230,phus:5, staff:20,sups:2,veh:2},
+    "Paki Masabong Chiefdom":     {district:"Bombali",  schools:17,pupils:2710,phus:6, staff:24,sups:3,veh:2},
+    "Gbense Chiefdom":            {district:"Kono",     schools:20,pupils:3150,phus:7, staff:28,sups:3,veh:2},
+    "Mano Sakrim Chiefdom":       {district:"Pujehun",  schools:13,pupils:2040,phus:4, staff:16,sups:2,veh:2},
+    "Nongowa Chiefdom":           {district:"Kenema",   schools:19,pupils:2980,phus:7, staff:28,sups:3,veh:2},
+    "Kaiyamba Chiefdom":          {district:"Moyamba",  schools:16,pupils:2510,phus:6, staff:24,sups:3,veh:2},
+    "Badjia Chiefdom":            {district:"Bo",       schools:14,pupils:2200,phus:5, staff:20,sups:2,veh:2},
+    "Lower Bambara Chiefdom":     {district:"Kenema",   schools:18,pupils:2840,phus:6, staff:24,sups:3,veh:2},
+    "Selenga Chiefdom":           {district:"Bo",       schools:15,pupils:2360,phus:5, staff:20,sups:2,veh:2},
+    "Masumgbala Chiefdom":        {district:"Kambia",   schools:12,pupils:1890,phus:4, staff:16,sups:2,veh:2},
+    "Luawa Chiefdom":             {district:"Kailahun", schools:21,pupils:3310,phus:7, staff:28,sups:3,veh:2},
+    "Peje West Chiefdom":         {district:"Kailahun", schools:13,pupils:2050,phus:5, staff:20,sups:2,veh:2},
+    "Malegohun Chiefdom":         {district:"Kenema",   schools:11,pupils:1730,phus:4, staff:16,sups:2,veh:2},
+    "Mara Chiefdom":              {district:"Bombali",  schools:22,pupils:3490,phus:8, staff:32,sups:4,veh:3},
+    "Makeni City":                {district:"Bombali",  schools:28,pupils:4420,phus:10,staff:40,sups:5,veh:3}
+};
+
+function calc(d){
+    var itn=Math.round(d.pupils*1.05), ict4d=Math.ceil(d.phus/2);
+    var total=itn*C.itn+itn*C.transport+d.staff*C.staff_day*C.days
+             +ict4d*C.ict4d_day*C.days+d.sups*C.sup_day*C.days
+             +d.veh*C.veh_day*C.days+d.veh*C.fuel_day*C.days;
+    return {itn:itn,ict4d:ict4d,
+        itn_cost:itn*C.itn,transport:itn*C.transport,
+        staff_10:d.staff*C.staff_day*C.days,
+        ict4d_10:ict4d*C.ict4d_day*C.days,
+        sup_10:d.sups*C.sup_day*C.days,
+        veh_10:d.veh*C.veh_day*C.days,
+        fuel_day:d.veh*C.fuel_day,
+        fuel_10:d.veh*C.fuel_day*C.days,
+        total:total};
+}
+
+var enriched={};
+Object.keys(eligible).forEach(function(n){
+    enriched[n]=Object.assign({name:n},eligible[n],calc(eligible[n]));
+});
+
+var selected={};
+function fmt(n){return Number(Math.round(n)).toLocaleString();}
+function fmtC(n){return 'NLe '+fmt(n);}
+
+function updateStats(){
+    var names=Object.keys(selected),itn=0,bud=0;
+    names.forEach(function(n){itn+=enriched[n].itn;bud+=enriched[n].total;});
+    document.getElementById('statITN').textContent    = names.length?fmt(itn):'—';
+    document.getElementById('statBudget').textContent = names.length?fmtC(bud):'—';
+    document.getElementById('selLabel').textContent   = names.length===0?'0 selected':names.length+' selected';
+}
+
+function igC(l,v,c){return '<div class="ig-cell"><div class="ig-lbl">'+l+'</div><div class="ig-v '+c+'">'+v+'</div></div>';}
+function cr(l,v){return '<div class="cr"><span class="cr-lbl">'+l+'</span><span class="cr-val">'+v+'</span></div>';}
+function msC(l,v){return '<div class="ms-cell"><div class="ms-lbl">'+l+'</div><div class="ms-num">'+v+'</div></div>';}
+
+function updateDetail(){
+    var names=Object.keys(selected);
+    var hdr=document.getElementById('detHdr');
+    var body=document.getElementById('detBody');
+    var ico='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f4a6a" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> ';
+
+    if(!names.length){
+        hdr.innerHTML=ico+'Chiefdom Details';
+        body.innerHTML='<div class="ph"><div class="ph-ico">&#128506;</div><p>Click any <strong>yellow chiefdom</strong>.<br>Multi-select supported.</p></div>';
+        return;
+    }
+    if(names.length===1){
+        var n=names[0],d=enriched[n];
+        hdr.innerHTML=ico+n;
+        body.innerHTML=
+            '<div class="det-name">'+n+'</div>'
+            +'<div class="det-dist">'+d.district+' District</div>'
+            +'<span class="det-badge">SBD 2026 Eligible</span>'
+            +'<div class="sec-lbl">Schools &amp; pupils</div>'
+            +'<div class="ig">'
+            +igC('Schools',fmt(d.schools),'b')
+            +igC('Pupils',fmt(d.pupils),'b')
+            +igC('ITNs targeted',fmt(d.itn),'g')
+            +igC('SBD days',fmt(C.days),'')
+            +'</div>'
+            +'<div class="sec-lbl">Health &amp; staff</div>'
+            +'<div class="ig">'
+            +igC('PHUs',fmt(d.phus),'b')
+            +igC('Staff &amp; teachers',fmt(d.staff),'b')
+            +'</div>'
+            +'<div class="sec-lbl">Logistics</div>'
+            +'<div class="ig">'
+            +igC('ICT4D devices',fmt(d.ict4d),'')
+            +igC('Supervisors',fmt(d.sups),'')
+            +igC('Vehicles',fmt(d.veh),'')
+            +igC('Fuel / day',fmtC(d.fuel_day),'o')
+            +'</div>'
+            +'<div class="sec-lbl">Cost breakdown</div>'
+            +cr('Cost of 1 ITN','NLe '+fmt(C.itn))
+            +cr('Transport / ITN to PHU','NLe '+fmt(C.transport))
+            +cr('Total ITN cost',fmtC(d.itn_cost))
+            +cr('Total transport cost',fmtC(d.transport))
+            +cr('PHU staff &amp; teachers (10d)',fmtC(d.staff_10))
+            +cr('ICT4D (10 days)',fmtC(d.ict4d_10))
+            +cr('Supervisors (10 days)',fmtC(d.sup_10))
+            +cr('Vehicles (10 days)',fmtC(d.veh_10))
+            +cr('Fuel (10 days)',fmtC(d.fuel_10))
+            +'<div class="tot-box"><span class="tot-lbl">Total estimated cost</span><span class="tot-val">'+fmtC(d.total)+'</span></div>';
+    } else {
+        var ti=0,tb=0,ts=0,tp=0,tph=0,tst=0;
+        names.forEach(function(n){var d=enriched[n];ti+=d.itn;tb+=d.total;ts+=d.schools;tp+=d.pupils;tph+=d.phus;tst+=d.staff;});
+        hdr.innerHTML=ico+names.length+' Chiefdoms Selected';
+        body.innerHTML=
+            '<div class="ms-box"><div class="ms-title">Combined — '+names.length+' chiefdoms</div>'
+            +'<div class="ms-grid">'
+            +msC('Schools',fmt(ts))+msC('Pupils',fmt(tp))
+            +msC('Total ITNs',fmt(ti))+msC('Total PHUs',fmt(tph))
+            +msC('Total staff',fmt(tst))+msC('Total budget',fmtC(tb))
+            +'</div></div>'
+            +'<div style="font-size:9px;font-weight:800;color:#6c7a89;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Per chiefdom</div>'
+            +names.map(function(n){
+                return '<div class="cr"><span class="cr-lbl">'+n+'</span><span class="cr-val">'+fmtC(enriched[n].total)+'</span></div>';
+            }).join('')
+            +'<div class="tot-box"><span class="tot-lbl">Total</span><span class="tot-val">'+fmtC(tb)+'</span></div>';
+    }
+}
+
+/* ── MAP ── */
+var GEO_C='https://raw.githubusercontent.com/mohamedsillahkanu/tpr/8b16cd164aa5116242b9e8e29ea777cf79a1b211/Chiefdom_shp.geojson';
+var GEO_D='https://raw.githubusercontent.com/mohamedsillahkanu/tpr/d202a234dfd9b30de6216b5da59b2a1ee14283b5/District_Shapefiles.geojson';
+
+var pathSel=null;
+
+function colorOf(name){
+    if(!eligible[name]) return '#ffffff';
+    return selected[name]?'#2d9e5a':'#ffc107';
+}
+
+Promise.all([d3.json(GEO_C),d3.json(GEO_D)]).then(function(res){
+    var geoC=res[0],geoD=res[1];
+    document.getElementById('loadingEl').style.display='none';
+
+    var wrap=document.getElementById('mapWrap');
+    var svgEl=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svgEl.setAttribute('viewBox','0 0 600 680');
+    svgEl.style.cssText='width:100%;height:auto;display:block';
+    wrap.appendChild(svgEl);
+
+    var svg=d3.select(svgEl);
+    var proj=d3.geoMercator().fitSize([600,680],geoC);
+    var path=d3.geoPath(proj);
+
+    /* chiefdom fills — key is adm3 */
+    pathSel=svg.selectAll('path.cp')
+        .data(geoC.features)
+        .join('path')
+        .attr('class','cp')
+        .attr('d',path)
+        .attr('fill',function(f){return colorOf(f.properties.adm3);})
+        .attr('stroke','#aab4be')
+        .attr('stroke-width','0.7')
+        .style('cursor',function(f){return eligible[f.properties.adm3]?'pointer':'default';})
+        .on('mouseenter',function(event,f){
+            var n=f.properties.adm3;
+            if(!eligible[n]||selected[n]) return;
+            d3.select(this).attr('fill','#e0a800');
+        })
+        .on('mouseleave',function(event,f){
+            var n=f.properties.adm3;
+            if(!eligible[n]||selected[n]) return;
+            d3.select(this).attr('fill','#ffc107');
+        })
+        .on('click',function(event,f){
+            var n=f.properties.adm3;
+            if(!eligible[n]) return;
+            if(selected[n]) delete selected[n]; else selected[n]=true;
+            /* recolor all */
+            pathSel.attr('fill',function(ff){return colorOf(ff.properties.adm3);})
+                   .attr('stroke',function(ff){return selected[ff.properties.adm3]?'#1a6e3c':'#aab4be';})
+                   .attr('stroke-width',function(ff){return selected[ff.properties.adm3]?'1.4':'0.7';});
+            updateStats();
+            updateDetail();
+        });
+
+    /* district boundaries — black 2.0 */
+    svg.selectAll('path.dp')
+        .data(geoD.features)
+        .join('path')
+        .attr('class','dp')
+        .attr('d',path)
+        .attr('fill','none')
+        .attr('stroke','#1a2e3d')
+        .attr('stroke-width','2.0')
+        .attr('pointer-events','none');
+
+    /* labels on eligible chiefdoms */
+    geoC.features.forEach(function(f){
+        var n=f.properties.adm3;
+        if(!eligible[n]) return;
+        var c=path.centroid(f);
+        if(isNaN(c[0])||isNaN(c[1])) return;
+        svg.append('text')
+            .attr('x',c[0]).attr('y',c[1])
+            .attr('text-anchor','middle')
+            .attr('dominant-baseline','middle')
+            .attr('pointer-events','none')
+            .attr('font-size','6')
+            .attr('font-family','Segoe UI,Arial,sans-serif')
+            .attr('font-weight','700')
+            .attr('fill','#1a2e3d')
+            .text(n.replace(' Chiefdom',''));
+    });
+
+}).catch(function(e){
+    document.getElementById('loadingEl').innerHTML='<p style="color:#dc3545;padding:20px;font-size:13px">Failed to load map. Check connection.</p>';
+    console.error(e);
+});
+
+updateStats();
+</script>
+</body>
+</html>
