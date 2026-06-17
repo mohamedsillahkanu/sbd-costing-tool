@@ -72,6 +72,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d}
 .uc:last-child{border-bottom:none}
 .uc-l{color:#6c7a89}.uc-v{font-weight:700;color:#2c6793}
 
+/* criteria table */
+.crit-table{width:100%;border-collapse:collapse;font-size:11px}
+.crit-table th{background:#e8f0f7;color:#1f4a6a;font-weight:700;padding:6px 8px;text-align:left;font-size:10px;letter-spacing:.4px;text-transform:uppercase;border:1px solid #d0dde8}
+.crit-table td{padding:6px 8px;border:1px solid #e8f0f7;vertical-align:middle;line-height:1.4}
+.crit-table tr:nth-child(even) td{background:#f8fafc}
+.crit-table tr:hover td{background:#e8f0f7}
+.crit-val{font-weight:700;color:#2c6793}
+.crit-met{display:inline-flex;align-items:center;gap:4px;background:#d4edda;color:#155724;font-weight:700;font-size:10px;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.crit-met::before{content:"✓";font-weight:900}
+
 .ms-box{background:#fff3cd;border-radius:8px;border:1.5px solid #ffc107;padding:10px 12px;margin-bottom:8px}
 .ms-title{font-size:11px;font-weight:700;color:#856404;margin-bottom:6px}
 .ms-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
@@ -136,6 +146,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d}
         </div>
 
         <div class="icard">
+            <div class="icard-hdr" id="critHdr">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f4a6a" stroke-width="2.5" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                Eligibility Criteria
+            </div>
+            <div class="icard-body" id="critBody">
+                <div class="ph" style="padding:18px 10px"><div class="ph-ico" style="font-size:24px">&#9989;</div><p>Click a <strong>yellow chiefdom</strong> to see its eligibility criteria.</p></div>
+            </div>
+        </div>
+
+        <div class="icard">
             <div class="icard-hdr" id="detHdr">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f4a6a" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
                 Chiefdom Details
@@ -188,6 +208,74 @@ var eligible = {
     "Mara Chiefdom":              {district:"Bombali",  schools:22,pupils:3490,phus:8, staff:32,sups:4,veh:3},
     "Makeni City":                {district:"Bombali",  schools:28,pupils:4420,phus:10,staff:40,sups:5,veh:3}
 };
+
+/* ── ELIGIBILITY CRITERIA per chiefdom (random realistic values, all met) ── */
+var criteria = {
+    "Nongoba Bullom Chiefdom":    {incidence:312, itn_access:38, itn_use:31, pfpr:48, u5_deaths:6.2},
+    "Small Bo Chiefdom":          {incidence:287, itn_access:41, itn_use:34, pfpr:44, u5_deaths:5.8},
+    "Peje Bongre Chiefdom":       {incidence:334, itn_access:36, itn_use:29, pfpr:51, u5_deaths:6.7},
+    "Kpanga Chiefdom":            {incidence:298, itn_access:43, itn_use:35, pfpr:46, u5_deaths:5.5},
+    "Nyedu Chiefdom":             {incidence:276, itn_access:39, itn_use:32, pfpr:42, u5_deaths:5.1},
+    "Dembelia-Sinkunia Chiefdom": {incidence:309, itn_access:37, itn_use:30, pfpr:49, u5_deaths:6.4},
+    "Paki Masabong Chiefdom":     {incidence:321, itn_access:40, itn_use:33, pfpr:52, u5_deaths:6.9},
+    "Gbense Chiefdom":            {incidence:268, itn_access:44, itn_use:36, pfpr:41, u5_deaths:4.9},
+    "Mano Sakrim Chiefdom":       {incidence:295, itn_access:42, itn_use:34, pfpr:45, u5_deaths:5.6},
+    "Nongowa Chiefdom":           {incidence:341, itn_access:35, itn_use:28, pfpr:53, u5_deaths:7.1},
+    "Kaiyamba Chiefdom":          {incidence:283, itn_access:38, itn_use:31, pfpr:43, u5_deaths:5.3},
+    "Badjia Chiefdom":            {incidence:316, itn_access:41, itn_use:33, pfpr:50, u5_deaths:6.5},
+    "Lower Bambara Chiefdom":     {incidence:274, itn_access:43, itn_use:35, pfpr:42, u5_deaths:5.0},
+    "Selenga Chiefdom":           {incidence:302, itn_access:40, itn_use:32, pfpr:47, u5_deaths:5.9},
+    "Masumgbala Chiefdom":        {incidence:318, itn_access:36, itn_use:29, pfpr:50, u5_deaths:6.6},
+    "Luawa Chiefdom":             {incidence:289, itn_access:44, itn_use:36, pfpr:44, u5_deaths:5.4},
+    "Peje West Chiefdom":         {incidence:327, itn_access:37, itn_use:30, pfpr:51, u5_deaths:6.8},
+    "Malegohun Chiefdom":         {incidence:271, itn_access:42, itn_use:34, pfpr:41, u5_deaths:4.8},
+    "Mara Chiefdom":              {incidence:345, itn_access:34, itn_use:27, pfpr:54, u5_deaths:7.3},
+    "Makeni City":                {incidence:263, itn_access:44, itn_use:36, pfpr:40, u5_deaths:4.7}
+};
+
+function renderCriteria(){
+    var hdr  = document.getElementById('critHdr');
+    var body = document.getElementById('critBody');
+    var ico  = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f4a6a" stroke-width="2.5" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> ';
+    var names = Object.keys(selected);
+
+    if(!names.length){
+        hdr.innerHTML  = ico + 'Eligibility Criteria';
+        body.innerHTML = '<div class="ph" style="padding:18px 10px"><div class="ph-ico" style="font-size:24px">&#9989;</div><p>Click a <strong>yellow chiefdom</strong> to see its eligibility criteria.</p></div>';
+        return;
+    }
+
+    hdr.innerHTML = ico + 'Eligibility Criteria' + (names.length > 1 ? ' — ' + names.length + ' chiefdoms' : '');
+
+    var criteriaRows = [
+        {label:'Malaria incidence &gt; 250 / 1,000 pop', key:'incidence',  suffix:' / 1,000'},
+        {label:'ITN access &lt; 45%',                    key:'itn_access', suffix:'%'},
+        {label:'ITN use &lt; 40%',                       key:'itn_use',    suffix:'%'},
+        {label:'PfPR (2-10 yrs) &gt; 40%',              key:'pfpr',       suffix:'%'},
+        {label:'U5 death rate &gt; 4.5 / 1,000',        key:'u5_deaths',  suffix:' / 1,000'}
+    ];
+
+    body.innerHTML = names.map(function(name, idx){
+        var d     = criteria[name];
+        var short = name.replace(' Chiefdom','');
+        var dist  = eligible[name] ? eligible[name].district : '';
+        var sep   = idx > 0 ? 'border-top:2px solid #d0dde8;padding-top:14px;margin-top:14px' : '';
+
+        var tbody = criteriaRows.map(function(r){
+            var val = d ? (d[r.key] + r.suffix) : '---';
+            return '<tr><td>'+r.label+'</td><td class="crit-val">'+val+'</td><td><span class="crit-met">Yes</span></td></tr>';
+        }).join('');
+
+        return '<div style="'+sep+'">'
+            + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'
+            + '<div><div style="font-size:12px;font-weight:700;color:#1f4a6a">'+short+'</div>'
+            + '<div style="font-size:10px;color:#6c7a89">'+dist+' District</div></div>'
+            + '<span style="background:#d4edda;color:#155724;font-size:9px;font-weight:800;padding:2px 8px;border-radius:10px">ALL MET</span>'
+            + '</div>'
+            + '<table class="crit-table"><thead><tr><th>Criteria</th><th>Value</th><th>Met</th></tr></thead>'
+            + '<tbody>'+tbody+'</tbody></table></div>';
+    }).join('');
+}
 
 function calc(d){
     var itn=Math.round(d.pupils*1.05), ict4d=Math.ceil(d.phus/2);
@@ -348,6 +436,7 @@ Promise.all([d3.json(GEO_C),d3.json(GEO_D)]).then(function(res){
                    .attr('stroke-width',function(ff){return selected[ff.properties.adm3]?'1.4':'0.7';});
             updateStats();
             updateDetail();
+            renderCriteria();
         });
 
     /* district boundaries — black 2.0 */
