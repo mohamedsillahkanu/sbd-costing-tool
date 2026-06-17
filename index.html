@@ -314,6 +314,48 @@ function igC(l,v,c){return '<div class="ig-cell"><div class="ig-lbl">'+l+'</div>
 function cr(l,v){return '<div class="cr"><span class="cr-lbl">'+l+'</span><span class="cr-val">'+v+'</span></div>';}
 function msC(l,v){return '<div class="ms-cell"><div class="ms-lbl">'+l+'</div><div class="ms-num">'+v+'</div></div>';}
 
+function chiefdomBlock(n, idx){
+    var d = enriched[n];
+    var sep = idx > 0 ? 'border-top:2px solid #d0dde8;padding-top:14px;margin-top:14px' : '';
+    return '<div style="'+sep+'">'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">'
+        +'<div class="det-name">'+n+'</div>'
+        +'<span class="det-badge" style="margin-bottom:0">SBD 2026</span>'
+        +'</div>'
+        +'<div class="det-dist" style="margin-bottom:8px">'+d.district+' District</div>'
+        +'<div class="sec-lbl" style="border-top:none;margin-top:0;padding-top:0">Schools &amp; pupils</div>'
+        +'<div class="ig">'
+        +igC('Schools',fmt(d.schools),'b')
+        +igC('Pupils',fmt(d.pupils),'b')
+        +igC('ITNs targeted',fmt(d.itn),'g')
+        +igC('SBD days',fmt(C.days),'')
+        +'</div>'
+        +'<div class="sec-lbl">Health &amp; staff</div>'
+        +'<div class="ig">'
+        +igC('PHUs',fmt(d.phus),'b')
+        +igC('Staff &amp; teachers',fmt(d.staff),'b')
+        +'</div>'
+        +'<div class="sec-lbl">Logistics</div>'
+        +'<div class="ig">'
+        +igC('ICT4D devices',fmt(d.ict4d),'')
+        +igC('Supervisors',fmt(d.sups),'')
+        +igC('Vehicles',fmt(d.veh),'')
+        +igC('Fuel / day',fmtC(d.fuel_day),'o')
+        +'</div>'
+        +'<div class="sec-lbl">Cost breakdown</div>'
+        +cr('Cost of 1 ITN','NLe '+fmt(C.itn))
+        +cr('Transport / ITN to PHU','NLe '+fmt(C.transport))
+        +cr('Total ITN cost',fmtC(d.itn_cost))
+        +cr('Total transport',fmtC(d.transport))
+        +cr('PHU staff &amp; teachers (10d)',fmtC(d.staff_10))
+        +cr('ICT4D (10 days)',fmtC(d.ict4d_10))
+        +cr('Supervisors (10 days)',fmtC(d.sup_10))
+        +cr('Vehicles (10 days)',fmtC(d.veh_10))
+        +cr('Fuel (10 days)',fmtC(d.fuel_10))
+        +'<div class="tot-box"><span class="tot-lbl">Chiefdom total</span><span class="tot-val">'+fmtC(d.total)+'</span></div>'
+        +'</div>';
+}
+
 function updateDetail(){
     var names=Object.keys(selected);
     var hdr=document.getElementById('detHdr');
@@ -325,60 +367,24 @@ function updateDetail(){
         body.innerHTML='<div class="ph"><div class="ph-ico">&#128506;</div><p>Click any <strong>yellow chiefdom</strong>.<br>Multi-select supported.</p></div>';
         return;
     }
-    if(names.length===1){
-        var n=names[0],d=enriched[n];
-        hdr.innerHTML=ico+n;
-        body.innerHTML=
-            '<div class="det-name">'+n+'</div>'
-            +'<div class="det-dist">'+d.district+' District</div>'
-            +'<span class="det-badge">SBD 2026 Eligible</span>'
-            +'<div class="sec-lbl">Schools &amp; pupils</div>'
-            +'<div class="ig">'
-            +igC('Schools',fmt(d.schools),'b')
-            +igC('Pupils',fmt(d.pupils),'b')
-            +igC('ITNs targeted',fmt(d.itn),'g')
-            +igC('SBD days',fmt(C.days),'')
-            +'</div>'
-            +'<div class="sec-lbl">Health &amp; staff</div>'
-            +'<div class="ig">'
-            +igC('PHUs',fmt(d.phus),'b')
-            +igC('Staff &amp; teachers',fmt(d.staff),'b')
-            +'</div>'
-            +'<div class="sec-lbl">Logistics</div>'
-            +'<div class="ig">'
-            +igC('ICT4D devices',fmt(d.ict4d),'')
-            +igC('Supervisors',fmt(d.sups),'')
-            +igC('Vehicles',fmt(d.veh),'')
-            +igC('Fuel / day',fmtC(d.fuel_day),'o')
-            +'</div>'
-            +'<div class="sec-lbl">Cost breakdown</div>'
-            +cr('Cost of 1 ITN','NLe '+fmt(C.itn))
-            +cr('Transport / ITN to PHU','NLe '+fmt(C.transport))
-            +cr('Total ITN cost',fmtC(d.itn_cost))
-            +cr('Total transport cost',fmtC(d.transport))
-            +cr('PHU staff &amp; teachers (10d)',fmtC(d.staff_10))
-            +cr('ICT4D (10 days)',fmtC(d.ict4d_10))
-            +cr('Supervisors (10 days)',fmtC(d.sup_10))
-            +cr('Vehicles (10 days)',fmtC(d.veh_10))
-            +cr('Fuel (10 days)',fmtC(d.fuel_10))
-            +'<div class="tot-box"><span class="tot-lbl">Total estimated cost</span><span class="tot-val">'+fmtC(d.total)+'</span></div>';
-    } else {
-        var ti=0,tb=0,ts=0,tp=0,tph=0,tst=0;
-        names.forEach(function(n){var d=enriched[n];ti+=d.itn;tb+=d.total;ts+=d.schools;tp+=d.pupils;tph+=d.phus;tst+=d.staff;});
-        hdr.innerHTML=ico+names.length+' Chiefdoms Selected';
-        body.innerHTML=
-            '<div class="ms-box"><div class="ms-title">Combined — '+names.length+' chiefdoms</div>'
-            +'<div class="ms-grid">'
-            +msC('Schools',fmt(ts))+msC('Pupils',fmt(tp))
-            +msC('Total ITNs',fmt(ti))+msC('Total PHUs',fmt(tph))
-            +msC('Total staff',fmt(tst))+msC('Total budget',fmtC(tb))
-            +'</div></div>'
-            +'<div style="font-size:9px;font-weight:800;color:#6c7a89;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Per chiefdom</div>'
-            +names.map(function(n){
-                return '<div class="cr"><span class="cr-lbl">'+n+'</span><span class="cr-val">'+fmtC(enriched[n].total)+'</span></div>';
-            }).join('')
-            +'<div class="tot-box"><span class="tot-lbl">Total</span><span class="tot-val">'+fmtC(tb)+'</span></div>';
-    }
+
+    hdr.innerHTML = ico + (names.length===1 ? names[0] : names.length+' Chiefdoms Selected');
+
+    var ti=0,tb=0,ts=0,tp=0,tph=0,tst=0;
+    names.forEach(function(n){var d=enriched[n];ti+=d.itn;tb+=d.total;ts+=d.schools;tp+=d.pupils;tph+=d.phus;tst+=d.staff;});
+
+    var summary = names.length > 1
+        ? '<div class="ms-box"><div class="ms-title">Combined summary — '+names.length+' chiefdoms</div>'
+          +'<div class="ms-grid">'
+          +msC('Schools',fmt(ts))+msC('Pupils',fmt(tp))
+          +msC('Total ITNs',fmt(ti))+msC('Total PHUs',fmt(tph))
+          +msC('Staff &amp; teachers',fmt(tst))+msC('Total budget',fmtC(tb))
+          +'</div>'
+          +'<div class="tot-box" style="margin-top:8px"><span class="tot-lbl">Grand total cost</span><span class="tot-val">'+fmtC(tb)+'</span></div>'
+          +'</div>'
+        : '';
+
+    body.innerHTML = summary + names.map(function(n,i){ return chiefdomBlock(n, names.length>1 ? i : 0); }).join('');
 }
 
 /* ── MAP ── */
