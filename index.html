@@ -20,20 +20,55 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;mi
 /* INTERVENTION TABS */
 .tabs-wrap{background:#fff;border-bottom:3px solid #d0dde8}
 .tabs-inner{max-width:1400px;margin:0 auto;display:flex;overflow-x:auto}
-.itab{display:flex;align-items:center;gap:8px;padding:11px 20px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#6c7a89;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .18s;white-space:nowrap;flex-shrink:0}
-.itab:hover{color:#2c6793;background:#f0f5f9}
-.itab.active{border-bottom-color:currentColor;background:#f0f5f9}
-.itab.t-sbd{color:#8a6e00}.itab.t-sbd.active{color:#8a6e00;background:#fffdf0;border-bottom-color:#f5c518}
-.itab.t-smc{color:#155724}.itab.t-smc.active{color:#155724;background:#f0fff4;border-bottom-color:#2d9e5a}
-.itab.t-pmc{color:#7a2e0e}.itab.t-pmc.active{color:#7a2e0e;background:#fff6f0;border-bottom-color:#e05c2a}
-.itab.t-itn{color:#4a1e8c}.itab.t-itn.active{color:#4a1e8c;background:#f8f0ff;border-bottom-color:#7b4fc9}
-.tdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.tcnt{font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;background:#e8f0f7;color:#2c6793}
-.itab.active .tcnt{color:inherit}
-.itab.t-sbd.active .tcnt{background:#fdf3c0;color:#8a6e00}
-.itab.t-smc.active .tcnt{background:#d4edda;color:#155724}
-.itab.t-pmc.active .tcnt{background:#fde8e0;color:#7a2e0e}
-.itab.t-itn.active .tcnt{background:#ede4f8;color:#4a1e8c}
+.itab{display:flex;align-items:center;gap:8px;padding:11px 20px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#6c7a89;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;white-space:nowrap;flex-shrink:0;border-radius:8px 8px 0 0;position:relative}
+.itab:hover{background:#f0f5f9;color:#2c6793}
+.itab .tdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:transform .2s}
+.itab.active .tdot{transform:scale(1.4)}
+.tcnt{font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;background:#e8f0f7;color:#6c7a89;transition:all .2s}
+
+/* SBD — yellow */
+.itab.t-sbd{color:#6b5400}
+.itab.t-sbd:hover{background:#fffbea}
+.itab.t-sbd.active{
+    color:#5a4500;font-weight:800;
+    background:linear-gradient(180deg,#fff8d6 0%,#fff3b0 100%);
+    border-bottom:3px solid #f5c518;
+    box-shadow:inset 0 3px 0 0 #f5c518, 0 -2px 8px rgba(245,197,24,.15);
+}
+.itab.t-sbd.active .tcnt{background:#f5c518;color:#5a4500}
+
+/* SMC — green */
+.itab.t-smc{color:#155724}
+.itab.t-smc:hover{background:#f0fff4}
+.itab.t-smc.active{
+    color:#0d3d1a;font-weight:800;
+    background:linear-gradient(180deg,#d4f4df 0%,#b8edcc 100%);
+    border-bottom:3px solid #2d9e5a;
+    box-shadow:inset 0 3px 0 0 #2d9e5a, 0 -2px 8px rgba(45,158,90,.15);
+}
+.itab.t-smc.active .tcnt{background:#2d9e5a;color:#fff}
+
+/* PMC — orange */
+.itab.t-pmc{color:#7a2e0e}
+.itab.t-pmc:hover{background:#fff6f0}
+.itab.t-pmc.active{
+    color:#5c1e06;font-weight:800;
+    background:linear-gradient(180deg,#fde0d4 0%,#fccdb8 100%);
+    border-bottom:3px solid #e05c2a;
+    box-shadow:inset 0 3px 0 0 #e05c2a, 0 -2px 8px rgba(224,92,42,.15);
+}
+.itab.t-pmc.active .tcnt{background:#e05c2a;color:#fff}
+
+/* Mass ITN — purple */
+.itab.t-itn{color:#4a1e8c}
+.itab.t-itn:hover{background:#f8f0ff}
+.itab.t-itn.active{
+    color:#310d6e;font-weight:800;
+    background:linear-gradient(180deg,#e6d8f8 0%,#d5bef4 100%);
+    border-bottom:3px solid #7b4fc9;
+    box-shadow:inset 0 3px 0 0 #7b4fc9, 0 -2px 8px rgba(123,79,201,.15);
+}
+.itab.t-itn.active .tcnt{background:#7b4fc9;color:#fff}
 
 /* STATS BAR */
 .sbar{background:#fff;border-bottom:1px solid #d0dde8;padding:8px 20px}
@@ -127,6 +162,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;mi
 .uc:last-child{border-bottom:none}
 .ul{color:#6c7a89}.uv{font-weight:700;color:#2c6793}
 
+/* collapsible cards */
+.icard-hdr{cursor:pointer;user-select:none}
+.icard-hdr:hover{background:#dce8f5}
+.icard-hdr .chev{margin-left:auto;flex-shrink:0;transition:transform .25s;opacity:.6}
+.icard-hdr.collapsed .chev{transform:rotate(-90deg)}
+.icard-body{overflow:hidden;transition:max-height .3s ease,opacity .25s ease,padding .25s ease}
+.icard-body.collapsed{max-height:0!important;opacity:0;padding-top:0;padding-bottom:0}
+
 @media(max-width:960px){.layout{grid-template-columns:1fr}.sidebar{order:-1}}
 @media(max-width:560px){.layout{padding:0 8px}.itab{padding:9px 12px;font-size:11px}}
 </style>
@@ -202,8 +245,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;mi
   <div class="sidebar">
     <!-- Legend -->
     <div class="icard">
-      <div class="icard-hdr">Legend</div>
-      <div class="icard-body">
+      <div class="icard-hdr" id="hdr-legend" onclick="toggleCard('legend')">
+        Legend
+        <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="icard-body" id="body-legend" style="max-height:300px">
         <div class="leg-t">Chiefdoms</div>
         <div class="leg-r"><div class="leg-sw" id="legElig" style="background:#f5c518;border:1.5px solid #c49a00"></div><span id="legEligLbl">Eligible — SBD</span></div>
         <div class="leg-r"><div class="leg-sw" style="background:#2d7fcb;border:1.5px solid #1a5a9e"></div>Selected</div>
@@ -217,24 +263,33 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;mi
 
     <!-- Criteria -->
     <div class="icard">
-      <div class="icard-hdr" id="critHdr">&#9989; Eligibility Criteria</div>
-      <div class="icard-body scrollable" id="critBody">
+      <div class="icard-hdr" id="hdr-crit" onclick="toggleCard('crit')">
+        <span id="critHdr">&#9989; Eligibility Criteria</span>
+        <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="icard-body scrollable" id="critBody" style="max-height:500px">
         <div class="ph"><div class="ph-ico">&#9989;</div><p>Click an eligible chiefdom to see its criteria.</p></div>
       </div>
     </div>
 
     <!-- Details -->
     <div class="icard">
-      <div class="icard-hdr" id="detHdr">&#128506; Chiefdom Details &amp; Costing</div>
-      <div class="icard-body scrollable" id="detBody">
+      <div class="icard-hdr" id="hdr-det" onclick="toggleCard('det')">
+        <span id="detHdr">&#128506; Chiefdom Details &amp; Costing</span>
+        <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="icard-body scrollable" id="detBody" style="max-height:500px">
         <div class="ph"><div class="ph-ico">&#128506;</div><p>Click any <strong>eligible chiefdom</strong>.<br>Multi-select supported.</p></div>
       </div>
     </div>
 
     <!-- Unit costs -->
     <div class="icard">
-      <div class="icard-hdr" id="costsHdr">Unit Cost Assumptions</div>
-      <div class="icard-body" id="costsBody"></div>
+      <div class="icard-hdr" id="hdr-costs" onclick="toggleCard('costs')">
+        <span id="costsHdr">Unit Cost Assumptions</span>
+        <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="icard-body" id="costsBody" style="max-height:400px"></div>
     </div>
   </div>
 </div>
@@ -242,6 +297,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f5f9;color:#1a2e3d;mi
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
+/* ─── COLLAPSIBLE CARDS ──────────────────────────── */
+function toggleCard(key){
+  var hdr  = document.getElementById('hdr-'+key);
+  var body = document.getElementById(key==='legend'?'body-legend':key==='crit'?'critBody':key==='det'?'detBody':'costsBody');
+  if(!hdr||!body) return;
+  var isOpen = !hdr.classList.contains('collapsed');
+  hdr.classList.toggle('collapsed', isOpen);
+  body.classList.toggle('collapsed', isOpen);
+}
+
 /* ─── INTERVENTION CONFIG ─────────────────────────── */
 var CFG = {
   SBD:{
