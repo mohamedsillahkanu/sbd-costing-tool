@@ -1,0 +1,61 @@
+chiefdom,district,SBD,SMC,PMC,Mass ITN,schools,pupils,phus,staff,supervisors,vehicles,incidence,itn_access,itn_use,pfpr,u5_deaths,smc_rounds,children_u5,pmc_women,anc_coverage,itn_households,population
+Dixon Chiefdom,Kambia,Yes,No,No,Yes,14,2180,5,20,2,2,298,41,33,46,5.6,4,1090,820,63,4960,24800
+Simiria Chiefdom,Tonkolili,Yes,No,No,Yes,11,1760,4,16,2,2,276,43,35,42,5.1,4,880,660,58,3920,19600
+Gbendembu Chiefdom,Bombali,Yes,No,No,Yes,19,2950,7,28,3,2,321,38,31,51,6.8,4,1475,1105,67,6480,32400
+Valunia Chiefdom,Bo,Yes,No,No,No,16,2520,6,24,3,2,304,40,32,48,6.1,4,1260,945,65,0,0
+Toli Chiefdom,Kono,Yes,No,No,No,13,2040,5,20,2,2,288,42,34,44,5.4,4,1020,765,62,0,0
+Safroko Limba Chiefdom,Bombali,Yes,No,No,Yes,22,3480,8,32,4,3,338,36,29,53,7.0,4,1740,1305,70,5620,28100
+Folosaba Dembelia Chiefdom,Falaba,Yes,No,No,No,10,1590,3,12,2,1,263,44,36,40,4.8,4,795,596,55,0,0
+Gbane Kandor Chiefdom,Kono,Yes,No,No,No,15,2360,5,20,2,2,291,41,33,45,5.5,4,1180,885,61,0,0
+Sowa Chiefdom,Pujehun,Yes,No,No,No,12,1920,4,16,2,2,274,43,35,42,5.0,4,960,720,60,0,0
+Lower Bambara Chiefdom,Kenema,Yes,No,No,Yes,18,2840,6,24,3,2,312,39,32,49,6.3,4,1420,1065,66,4280,21400
+Kamadugu Yiraia Chiefdom,Falaba,Yes,No,No,No,9,1430,3,12,2,1,258,44,36,39,4.6,4,715,536,54,0,0
+Makpele Chiefdom,Pujehun,Yes,No,No,No,14,2200,5,20,2,2,295,42,34,46,5.7,4,1100,825,62,0,0
+Tane Chiefdom,Tonkolili,Yes,No,No,Yes,17,2670,6,24,3,2,308,40,32,48,6.2,4,1335,1001,64,4560,22800
+Marampa Chiefdom,Port Loko,Yes,No,No,Yes,20,3140,7,28,3,2,325,37,30,52,6.9,4,1570,1178,68,5300,26500
+Kongbora Chiefdom,Moyamba,Yes,No,No,No,13,2060,5,20,2,2,282,42,34,43,5.3,4,1030,773,61,0,0
+Ribbi Chiefdom,Moyamba,Yes,No,No,No,15,2380,5,20,2,2,297,41,33,46,5.6,4,1190,893,62,0,0
+Tainkatopa Chiefdom,Port Loko,Yes,No,No,No,18,2840,6,24,3,2,315,39,31,50,6.4,4,1420,1065,65,0,0
+Waterloo Rural Zone,Western Rural,Yes,No,No,Yes,21,3310,7,28,3,2,332,37,30,52,6.8,4,1655,1241,69,7720,38600
+Imperi Chiefdom,Bonthe,Yes,No,No,No,11,1750,4,16,2,2,271,43,35,41,5.0,4,875,656,59,0,0
+Bake-Loko Chiefdom,Port Loko,Yes,No,No,No,16,2510,6,24,3,2,303,40,32,47,6.0,4,1255,941,65,0,0
+West 1 Zone,Western Urban,No,Yes,Yes,Yes,0,0,8,0,3,2,310,39,32,49,6.5,4,12400,2960,74,8840,44200
+Mambolo Chiefdom,Kambia,No,Yes,No,Yes,0,0,5,0,2,2,278,41,34,43,5.2,4,8200,0,0,3780,18900
+Kabonde Chiefdom,Pujehun,No,Yes,No,No,0,0,4,0,2,2,265,43,36,41,5.0,4,9100,0,0,0,0
+Bendu-Cha Chiefdom,Bonthe,No,Yes,No,No,0,0,4,0,2,2,272,42,35,42,5.1,4,7600,0,0,0,0
+Niawa Lenga Chiefdom,Bo,No,Yes,No,Yes,0,0,6,0,3,2,298,40,33,47,5.8,4,11300,0,0,5480,27400
+Mara Chiefdom,Bombali,No,Yes,No,Yes,0,0,7,0,3,2,318,38,31,50,6.5,4,10800,0,0,6240,31200
+Gbokolenken Polie Chiefdom,Tonkolili,No,Yes,No,No,0,0,5,0,2,2,287,41,34,45,5.5,4,8900,0,0,0,0
+Gbokolenken Yele Chiefdom,Tonkolili,No,Yes,No,No,0,0,4,0,2,2,274,43,35,42,5.0,4,7400,0,0,0,0
+Kamajei Chiefdom,Moyamba,No,Yes,No,No,0,0,5,0,2,2,284,42,34,44,5.3,4,9600,0,0,0,0
+Makarie Chiefdom,Bombali,No,Yes,No,No,0,0,6,0,3,2,305,40,32,48,6.1,4,10200,0,0,0,0
+Lei Chiefdom,Kono,No,Yes,No,No,0,0,5,0,2,2,279,41,34,43,5.2,4,8800,0,0,0,0
+Safroko Chiefdom,Karene,No,Yes,No,No,0,0,5,0,2,2,286,42,34,44,5.4,4,9300,0,0,0,0
+Bumpeh Chiefdom,Moyamba,No,Yes,No,No,0,0,6,0,3,2,294,41,33,46,5.6,4,11000,0,0,0,0
+East 2 Zone,Western Urban,No,Yes,No,No,0,0,7,0,3,2,315,38,31,50,6.4,4,13200,0,0,0,0
+Gbo Chiefdom,Bo,No,Yes,No,Yes,0,0,6,0,3,2,299,40,32,47,5.9,4,10500,0,0,5960,29800
+Kalantuba Chiefdom,Tonkolili,No,Yes,No,No,0,0,5,0,2,2,280,42,34,43,5.2,4,8100,0,0,0,0
+Langroma Chiefdom,Kenema,No,Yes,No,No,0,0,5,0,2,2,276,43,35,42,5.1,4,9700,0,0,0,0
+York Rural Zone,Western Rural,No,Yes,No,No,0,0,4,0,2,2,269,43,35,41,4.9,4,7900,0,0,0,0
+Kpanga Krim Chiefdom,Pujehun,No,Yes,No,No,0,0,4,0,2,2,272,42,35,42,5.0,4,8600,0,0,0,0
+Sanda Magbolonthor Chiefdom,Karene,No,Yes,No,Yes,0,0,5,0,2,2,291,41,33,45,5.5,4,10100,0,0,4780,23900
+Thamiso Chiefdom,Koinadugu,No,No,Yes,No,0,0,4,0,2,2,264,44,36,40,4.8,4,0,1840,62,0,0
+West 3 Zone,Western Urban,No,No,Yes,No,0,0,6,0,3,2,318,38,31,50,6.5,4,0,2960,74,0,0
+Mandu Chiefdom,Kailahun,No,No,Yes,No,0,0,4,0,2,2,271,43,35,41,5.0,4,0,1620,58,0,0
+Morifindu Chiefdom,Falaba,No,No,Yes,No,0,0,3,0,2,1,258,44,36,39,4.6,4,0,1380,55,0,0
+Baoma Chiefdom,Bo,No,No,Yes,Yes,0,0,5,0,2,2,285,42,34,44,5.3,4,0,2100,65,5120,25600
+Jahn Chiefdom,Kailahun,No,No,Yes,No,0,0,4,0,2,2,268,43,35,41,4.9,4,0,1560,60,0,0
+Masumgbala Chiefdom,Kambia,No,No,Yes,Yes,0,0,5,0,2,2,293,41,33,45,5.5,4,0,1780,63,4360,21800
+Kamaranka Chiefdom,Bombali,No,No,Yes,No,0,0,5,0,2,2,302,40,32,47,6.0,4,0,2240,68,0,0
+Kunike Sanda Chiefdom,Tonkolili,No,No,Yes,Yes,0,0,5,0,2,2,296,41,33,46,5.7,4,0,1920,64,4880,24400
+Masimera Chiefdom,Port Loko,No,No,Yes,No,0,0,5,0,2,2,303,40,32,47,6.0,4,0,2080,66,0,0
+Koya (Kenema) Chiefdom,Kenema,No,No,Yes,No,0,0,4,0,2,2,274,43,35,42,5.0,4,0,1480,57,0,0
+Kori Chiefdom,Moyamba,No,No,Yes,No,0,0,4,0,2,2,278,42,34,43,5.2,4,0,1760,62,0,0
+Maconteh Chiefdom,Port Loko,No,No,Yes,No,0,0,5,0,2,2,299,40,32,47,5.9,4,0,2000,65,0,0
+Gbanti (Bombali) Chiefdom,Bombali,No,No,Yes,No,0,0,5,0,2,2,308,39,32,48,6.2,4,0,2160,67,0,0
+Kpaka Chiefdom,Pujehun,No,No,Yes,No,0,0,4,0,2,2,271,43,35,41,5.0,4,0,1640,59,0,0
+Upper Bambara Chiefdom,Kailahun,No,No,Yes,No,0,0,4,0,2,2,276,43,35,42,5.1,4,0,1700,61,0,0
+Kunike Fulawusu Chiefdom,Tonkolili,No,No,Yes,No,0,0,5,0,2,2,292,41,33,45,5.5,4,0,1860,63,0,0
+Gbane Chiefdom,Kono,No,No,Yes,No,0,0,4,0,2,2,269,43,35,41,4.9,4,0,1520,58,0,0
+Barri Chiefdom,Pujehun,No,No,Yes,No,0,0,5,0,2,2,282,42,34,43,5.2,4,0,1980,64,0,0
+Nimiyama Chiefdom,Kono,No,No,Yes,No,0,0,4,0,2,2,264,44,36,40,4.7,4,0,1420,56,0,0
